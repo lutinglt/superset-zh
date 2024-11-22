@@ -1,0 +1,5 @@
+generate_locales.py
+generate_messages.py
+.gitea
+locales
+target
