@@ -32,6 +32,12 @@ docker build -t lutinglt/superset-zh .
 
 ### 手动汉化
 
+脚本依赖 `babel` 和 `polib` 并基于 Python 3.12 构建, 其中使用了一些类型注解可能会影响兼容性, 如有报错请自行删除, Python 3.8 以上理论上都可以直接运行.
+
+```bash
+pip install babel polib
+```
+
 找到 Superset 安装目录下的 `translations` 目录, 找到 `zh/LC_MESSAGES` 目录, 直接将项目仓库里的 `messages.json` 和 `messages.po` 文件复制到 `zh/LC_MESSAGES` 目录下, 然后运行:
 
 ```bash
