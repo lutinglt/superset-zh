@@ -12,7 +12,7 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&\
     # 安装数据库驱动
     pip install psycopg2 mysqlclient &&\
     # 默认语言
-    sed -i "s/*BABEL_DEFAULT_LOCALE*/BABEL_DEFAULT_LOCALE = \"zh\"/" /app/superset/config.py &&\
+    sed -i "s/BABEL_DEFAULT_LOCALE = \"en\"/BABEL_DEFAULT_LOCALE = \"zh\"/" /app/superset/config.py &&\
     sed -i "s/LANGUAGES = {}/LANGUAGES = {\"zh\": {\"flag\": \"cn\", \"name\": \"简体中文\"}, \"en\": {\"flag\": \"us\", \"name\": \"English\"}}/" /app/superset/config.py &&\
     # 清理不需要的翻译
     cd /app/superset/translations &&\
