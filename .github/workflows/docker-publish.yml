@@ -19,6 +19,12 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
       -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
         name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -35,6 +41,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v5
         with:
+          platforms: linux/amd64,linux/arm64
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
