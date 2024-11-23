@@ -6,7 +6,7 @@
 
 [PR: 29476](https://github.com/apache/superset/pull/29476) 这个提交中删除了大量的中文翻译，导致 Superset 的中文翻译质量大幅下降, 在这次提交后便没有人再对中文翻译进行维护。
 
-本项目基于 [PR: 27922](https://github.com/apache/superset/pull/27922) 的最后一次中文翻译提交，用 Python 构建了翻译脚本, 脚本改变了汉化步骤, 先生成 messages.json, 再通过 json 生成 messages.po, 此过程修复了一些翻译文件无法正常生效的问题.
+本项目基于 [PR: 27922](https://github.com/apache/superset/pull/27922) 的最后一次中文翻译提交，为了方便维护翻译, 用 Python 构建了翻译脚本, 改变了汉化步骤, 先生成 messages.json, 再通过 json 生成 messages.po, 此过程修复了一些翻译文件无法正常生效的问题.
 
 ## 使用方法
 
@@ -31,12 +31,6 @@ docker build -t lutinglt/superset-zh .
 ```
 
 ### 手动汉化
-
-脚本依赖 `babel` 和 `polib` 并基于 Python 3.12 构建, 其中使用了一些类型注解可能会影响兼容性, 如有报错请自行删除, Python 3.8 以上理论上都可以直接运行.
-
-```bash
-pip install babel polib
-```
 
 找到 Superset 安装目录下的 `translations` 目录, 找到 `zh/LC_MESSAGES` 目录, 直接将项目仓库里的 `messages.json` 和 `messages.po` 文件复制到 `zh/LC_MESSAGES` 目录下, 然后运行:
 
@@ -79,6 +73,12 @@ LANGUAGES = {
 > ```
 
 ## 脚本说明
+
+脚本依赖 `babel` 和 `polib` 并基于 Python 3.12 构建, 其中使用了一些类型注解可能会影响兼容性, 如有报错请自行删除, Python >= 3.8 理论上都可以直接运行.
+
+```bash
+pip install babel polib
+```
 
 ### `generate_locales.py`
 
