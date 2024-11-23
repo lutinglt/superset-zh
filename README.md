@@ -22,13 +22,17 @@ docker pull lutinglt/superset-zh
 
 #### 手动构建
 
-FROM 关键字后替换自己需要的官方镜像标签
-
 ```bash
 git clone https://github.com/lutinglt/superset-zh.git
 cd superset-zh
 docker build -t lutinglt/superset-zh .
 ```
+
+> [!TIP]
+>
+> 4.1.1 有两个 Python 版本, 官方默认的基于 3.10, 无明显 BUG 的情况下本仓库将仅更新最新的稳定版镜像, 可以根据需要替换 Dockerfile 中 FROM 关键字后的基础镜像.
+>
+> 推荐使用最新的 Python 版本, 以提高性能和安全性, 但可能存在一些未知的 BUG, 请自行测试.
 
 ### 手动汉化
 
