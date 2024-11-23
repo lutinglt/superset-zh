@@ -1,8 +1,15 @@
+# 构建翻译文件(请勿替换FROM)
+FROM python:3.12.6-slim-bookworm AS builder
+COPY . /app
+WORKDIR /app
+RUN pip install --no-cache-dir --upgrade pip &&\
+    pip install --no-cache-dir -r requirements.txt &&\
+    python generate_locales.py && python generate_messages.py
+
+# 将翻译导入镜像(此处替换所需的官方版本)
 FROM apache/superset:4.1.1-py311
-
-COPY messages.json /app/superset/translations/zh/LC_MESSAGES/messages.json
-COPY messages.po /app/superset/translations/zh/LC_MESSAGES/messages.po
-
+COPY --from=builder /app/messages.json /app/superset/translations/zh/LC_MESSAGES/messages.json
+COPY --from=builder /app/target/messages.mo /app/superset/translations/zh/LC_MESSAGES/messages.mo
 USER root
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&\
     export DEBIAN_FRONTEND=noninteractive &&\
@@ -13,11 +20,7 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&\
     pip install psycopg2 mysqlclient &&\
     # 默认语言
     sed -i "s/BABEL_DEFAULT_LOCALE = \"en\"/BABEL_DEFAULT_LOCALE = \"zh\"/" /app/superset/config.py &&\
-    sed -i "s/LANGUAGES = {}/LANGUAGES = {\"zh\": {\"flag\": \"cn\", \"name\": \"简体中文\"}, \"en\": {\"flag\": \"us\", \"name\": \"English\"}}/" /app/superset/config.py &&\
-    # 清理不需要的翻译
-    cd /app/superset/translations &&\
-    rm -rf ar de es fr it ja ko nl pt pt_BR ru sk sl tr uk zh-TW &&\
-    # 翻译
-    pybabel compile -d /app/superset/translations || true
+    # 打开语言切换
+    sed -i "s/LANGUAGES = {}/LANGUAGES = {\"zh\": {\"flag\": \"cn\", \"name\": \"简体中文\"}, \"en\": {\"flag\": \"us\", \"name\": \"English\"}}/" /app/superset/config.py
 
 USER superset

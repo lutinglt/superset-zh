@@ -6,9 +6,9 @@
 
 [PR: 29476](https://github.com/apache/superset/pull/29476) 这个提交中删除了大量的中文翻译，导致 Superset 的中文翻译质量大幅下降, 在这次提交后便没有人再对中文翻译进行维护。
 
-本项目基于 [PR: 27922](https://github.com/apache/superset/pull/27922) 的最后一次中文翻译提交，为了方便维护翻译, 用 Python 构建了翻译脚本, 改变了汉化步骤, 先生成 messages.json, 再通过 json 生成 messages.po, 此过程修复了一些翻译文件无法正常生效的问题.
+本项目基于 [PR: 27922](https://github.com/apache/superset/pull/27922) 的最后一次中文翻译提交，为了方便维护翻译, 用 Python 构建了翻译脚本, 改变了汉化步骤, 先生成 messages.json, 再通过 json 生成 messages.po 和 messages.mo, 此过程修复了一些翻译文件无法正常生效的问题.
 
-## 使用方法
+## 部署
 
 ### Docker 镜像
 
@@ -18,6 +18,40 @@
 
 ```bash
 docker pull lutinglt/superset-zh
+```
+
+参考配置 docker-compose.yml
+
+```yml
+services:
+  superset:
+    image: lutinglt/superset-zh
+    container_name: superset
+    hostname: superset
+    restart: always
+    ports:
+      - 8080:8088
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+    # sqlite 存储持久化
+      - ./superset:~/.superset
+    # 导入配置文件
+      - ./superset_config.py:/app/pythonpath/superset_config.py
+```
+
+参考配置 superset_config.py
+
+```python
+SECRET_KEY = 'superset'
+SQLALCHEMY_DATABASE_URI = 'postgresql://superset:superset@postgres/superset'
+WTF_CSRF_ENABLED = False
+TALISMAN_ENABLED = False
+BABEL_DEFAULT_LOCALE = "zh"
+LANGUAGES = {
+    "zh": {"flag": "cn", "name": "简体中文"},
+    "en": {"flag": "us", "name": "English"},
+}
 ```
 
 #### 手动构建
@@ -36,34 +70,36 @@ docker build -t lutinglt/superset-zh .
 
 ### 手动汉化
 
-找到 Superset 安装目录下的 `translations` 目录, 找到 `zh/LC_MESSAGES` 目录, 直接将项目仓库里的 `messages.json` 和 `messages.po` 文件复制到 `zh/LC_MESSAGES` 目录下, 然后运行:
+找到 Superset 安装目录下的 `translations` 目录, 找到 `zh/LC_MESSAGES` 目录
 
-```bash
-# 替换成自己的安装目录下的 translations 目录
-pybabel compile -d superset/translations
-```
+下载最新版本的 `messages.json` 和 `messages.mo` 文件复制到 `zh/LC_MESSAGES` 目录下
 
 重启 Superset 查看汉化效果.
 
 > [!IMPORTANT]
 >
-> config.py 里的 `BABEL_DEFAULT_LOCALE` 变量会影响标题栏的汉化, 默认为 `en`, 修改为 `zh` 重新编译即可.
-
-> [!IMPORTANT]
->
 > config.py 里的 `LANGUAGES` 变量为空会关闭语言选择框, 默认为空, 参考配置:
-
-```python
-BABEL_DEFAULT_LOCALE = "zh"
-LANGUAGES = {
-    "zh": {"flag": "cn", "name": "简体中文"},
-    "en": {"flag": "us", "name": "English"},
-}
-```
+>
+>```python
+>LANGUAGES = {
+>    "zh": {"flag": "cn", "name": "简体中文"},
+>    "en": {"flag": "us", "name": "English"},
+>}
+>```
 
 > [!NOTE]
 >
 > superset_config.py 会覆盖 config.py 里的配置, 优先级更高.
+
+> [!TIP]
+>
+> config.py 里的 `BABEL_DEFAULT_LOCALE` 变量可能会影响标题栏的汉化, 默认为 `en`, 如果标题栏没有汉化修改为 `zh` 下载最新的 `messages.po` 重新编译即可.
+>
+>```python
+># 替换成自己的安装目录下的 translations 目录
+># 编译报错请无视
+>pybabel compile -d superset/translations
+>```
 
 > [!TIP]
 >
@@ -76,13 +112,15 @@ LANGUAGES = {
 > CONTENT_SECURITY_POLICY_WARNING = False  # 关闭内容安全策略警告
 > ```
 
-## 脚本说明
+## 脚本
 
-脚本依赖 `babel` 和 `polib` 并基于 Python 3.12 构建, 其中使用了一些类型注解可能会影响兼容性, 如有报错请自行删除, Python >= 3.8 理论上都可以直接运行.
-
-```bash
-pip install babel polib
-```
+> [!IMPORTANT]
+>
+> 脚本基于 Python 3.12 构建, 其中使用了一些类型注解可能会影响兼容性, 如有报错请自行删除, Python >= 3.8 理论上都可以直接运行, 安装依赖运行命令:
+>
+>```bash
+>pip install -r requirements.txt
+>```
 
 ### `generate_locales.py`
 
@@ -90,7 +128,7 @@ pip install babel polib
 
 ### `generate_messages.py`
 
-根据已经翻译的内容生成 Superset 前端需要的 `messages.json` 和 `messages.po`, 具体查看脚本中的文档注释内容.
+根据已经翻译的内容生成 Superset 前端需要的 `messages.json` 和 `messages.mo`, 具体查看脚本中的文档注释内容.
 
 ## 贡献
 

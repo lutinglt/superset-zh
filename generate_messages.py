@@ -1,9 +1,9 @@
 #!/bin/python
 # -*- coding:utf-8 -*-
 """
-该脚本运行后，会生成 target/messages.json, 并将 target/messages.json 转换为 target/messages.po
-检查无误后, 请使用默认配置的 prettier 格式化 target/messages.json
-手动覆盖根目录下的 messages.json 和 messages.po, 之后提交代码
+该脚本运行后，会生成 target/messages.json, 并将 target/messages.json 转换为 target/messages.po 和 target/messages.mo
+检查核对无误后, 请使用默认配置的 prettier 格式化 target/messages.json
+手动覆盖根目录下的 messages.json, 之后提交代码
 """
 
 import json
@@ -36,8 +36,8 @@ if __name__ == "__main__":
     with open("target/messages.json", "w", encoding="utf-8") as f:
         json.dump(trans, f, ensure_ascii=False, indent=2, sort_keys=True)
 
-    # 生成 messages.po
-    zh_po = polib.pofile("locales/zh/LC_MESSAGES/messages.po")
+    # 生成 messages.po & messages.mo
+    zh_po = polib.pofile("translations/zh/LC_MESSAGES/messages.po")
     po = polib.POFile()
     po.metadata = zh_po.metadata
     po_trans = {k: v[0] if isinstance(v, list) else v for k, v in trans["locale_data"]["superset"].items()}
@@ -56,3 +56,4 @@ if __name__ == "__main__":
             )
         po.append(entry)
     po.save("target/messages.po")
+    po.save_as_mofile("target/messages.mo")
