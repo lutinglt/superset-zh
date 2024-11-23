@@ -86,11 +86,11 @@ pip install babel polib
 
 ### `generate_locales.py`
 
-基于 Superset 项目下的 `superset/translations/messages.pot` 和 `superset/translations/zh/LC_MESSAGES/messages.po` 生成最新的需要翻译的内容, 然后取本项目下 `messages.json` 已翻译的部分覆盖需要翻译的内容, 生成全部翻译条目(包含未翻译)和筛选出未翻译的条目的 json 文件, 进行手动校验翻译过程, 方便补充新翻译和修改已翻译内容, 具体查看脚本文档注释内容.
+基于 Superset 项目下的 `superset/translations/messages.pot` 和 `superset/translations/zh/LC_MESSAGES/messages.po` 生成最新的需要翻译的内容, 然后取本项目下 `messages.json` 已翻译的部分覆盖需要翻译的内容, 生成全部翻译条目(包含未翻译)和筛选出未翻译的条目的 json 文件, 进行手动校验翻译过程, 方便补充新翻译和修改已翻译内容, 具体查看脚本中的文档注释内容.
 
 ### `generate_messages.py`
 
-根据已经翻译的内容生成 Superset 前端需要的 `messages.json` 和 `messages.po`, 具体查看脚本文档注释内容.
+根据已经翻译的内容生成 Superset 前端需要的 `messages.json` 和 `messages.po`, 具体查看脚本中的文档注释内容.
 
 ## 贡献
 
