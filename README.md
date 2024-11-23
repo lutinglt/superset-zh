@@ -40,11 +40,11 @@ services:
       - ./superset_config.py:/app/pythonpath/superset_config.py
 ```
 
-参考配置 superset_config.py
+参考配置 superset_config.py (Postgres数据库)
 
 ```python
 SECRET_KEY = 'superset'
-SQLALCHEMY_DATABASE_URI = 'postgresql://superset:superset@postgres/superset'
+SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@postgres/database'
 WTF_CSRF_ENABLED = False
 TALISMAN_ENABLED = False
 BABEL_DEFAULT_LOCALE = "zh"
