@@ -122,16 +122,24 @@ docker build -t lutinglt/superset-zh .
 >pip install -r requirements.txt
 >```
 
+脚本主要改变了汉化步骤, json 更有利于定位和修改翻译内容, 脚本另一个功能是筛选出没有翻译的部分, 直接补充即可, 不需要手动浏览, 或者使用一些翻译软件进行翻译.(例如: poedit)
+
 ### `generate_locales.py`
 
-基于 Superset 项目下的 `superset/translations/messages.pot` 和 `superset/translations/zh/LC_MESSAGES/messages.po` 生成最新的需要翻译的内容, 然后取本项目下 `messages.json` 已翻译的部分覆盖需要翻译的内容, 生成全部翻译条目(包含未翻译)和筛选出未翻译的条目的 json 文件, 进行手动校验翻译过程, 方便补充新翻译和修改已翻译内容, 具体查看脚本中的文档注释内容.
+基于 Superset 项目下的 `superset/translations/messages.pot` 和 `superset/translations/zh/LC_MESSAGES/messages.po` 生成最新的需要翻译的内容, 然后取本项目下 `messages.json` 已翻译的部分, 覆盖需要翻译的内容, 生成全部翻译条目(包含未翻译)和筛选出未翻译的条目的 json 文件, 进行手动校验翻译过程, 方便补充新翻译和修改已翻译内容, 具体查看脚本中的文档注释内容.
 
 ### `generate_messages.py`
 
 根据已经翻译的内容生成 Superset 前端需要的 `messages.json` 和 `messages.mo`, 具体查看脚本中的文档注释内容.
 
+> [!NOTE]
+>
+> 如果只是少量的纠正和补充(可以直接定位的), 只修改 `messages.json` 文件即可
+>
+> 然后运行 `generate_locales.py` 和 `generate_messages.py` 生成 `messages.mo` 文件, 供自己立即查看效果
+
 ## 贡献
 
 欢迎提交 PR, 修复汉化问题, 补充汉化内容或者优化翻译脚本.
 
-汉化贡献仅需提交最新的 `messages.json` 文件即可
+汉化贡献仅需提交最新的 `messages.json` 文件即可.
