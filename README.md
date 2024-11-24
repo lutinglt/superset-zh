@@ -93,7 +93,7 @@ docker build -t lutinglt/superset-zh .
 
 > [!TIP]
 >
-> config.py 里的 `BABEL_DEFAULT_LOCALE` 变量可能会影响标题栏的汉化, 默认为 `en`, 如果标题栏没有汉化修改为 `zh` 下载最新的 `messages.po` 重新编译即可.
+> config.py 里的 `BABEL_DEFAULT_LOCALE` 变量可能会影响标题栏的汉化, 默认为 `en`, 如果标题栏没有汉化修改为 `zh` 下载最新的 `messages.po` 到 `zh/LC_MESSAGES` 目录下重新编译即可.
 >
 >```python
 ># 替换成自己的安装目录下的 translations 目录
@@ -122,7 +122,7 @@ docker build -t lutinglt/superset-zh .
 >pip install -r requirements.txt
 >```
 
-脚本主要改变了汉化步骤, json 更有利于定位和修改翻译内容, 脚本另一个功能是筛选出没有翻译的部分, 直接补充即可, 不需要手动浏览, 或者使用一些翻译软件进行翻译.(例如: poedit)
+脚本主要改变了汉化步骤, json 更有利于定位和修改翻译内容, 脚本另一个功能是筛选出没有翻译的部分, 直接补充即可, 不需要手动浏览或者使用一些翻译软件进行翻译.(例如: poedit)
 
 ### `generate_locales.py`
 
