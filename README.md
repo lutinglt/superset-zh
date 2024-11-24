@@ -67,7 +67,9 @@ services:
 > [!NOTE]
 >
 > superset_config.py 会覆盖 config.py 里的配置, 优先级更高.
+>
 > SECRET_KEY 会用来签名 cookie 和加密 Superset 存储在数据库中的敏感数据
+>
 > 推荐使用 `openssl rand -base64 42` 命令生成一个足够复杂的安全密钥
 
 ```python
