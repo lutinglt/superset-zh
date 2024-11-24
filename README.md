@@ -15,7 +15,7 @@
 #### 开箱即用
 
 基于官方镜像生成, 修复了汉化问题, 仅保留中文和英文两种语言并且默认显示中文, 默认时区上海, 并添加了 PostgreSQL 和 MySQL 数据库驱动.
-为了做到开箱即用, 修改了以下默认配置:
+为了做到开箱即用, 修改了以下默认配置 (不推荐生产使用):
 
 ```python
 SECRET_KEY = 'superset'
@@ -66,8 +66,9 @@ services:
 
 > [!NOTE]
 >
+> superset_config.py 会覆盖 config.py 里的配置, 优先级更高.
 > SECRET_KEY 会用来签名 cookie 和加密 Superset 存储在数据库中的敏感数据
-> 推荐使用 `openssl rand -base64 42` 命令生成一个足够复杂的安全密钥,
+> 推荐使用 `openssl rand -base64 42` 命令生成一个足够复杂的安全密钥
 
 ```python
 SECRET_KEY = 'superset'
