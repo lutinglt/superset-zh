@@ -12,7 +12,7 @@
 
 ### Docker 镜像
 
-#### 下载镜像
+#### 开箱即用
 
 基于官方镜像生成, 修复了汉化问题, 仅保留中文和英文两种语言并且默认显示中文, 默认时区上海, 并添加了 PostgreSQL 和 MySQL 数据库驱动.
 为了做到开箱即用, 修改了以下默认配置:
@@ -23,13 +23,26 @@ WTF_CSRF_ENABLED = False
 TALISMAN_ENABLED = False
 ```
 
-一键启动体验汉化版 Superset
+一键启动体验汉化版 Superset, (http://localhost:8080)
 
 ```bash
 docker run -d --name superset -p 8080:8088 lutinglt/superset-zh
 ```
 
-> 登录仍需执行 `superset fab create-admin`, `superset db upgrade` 和 `superset init` 命令
+登录仍需执行以下命令 (命令创建一个管理员账户, 用户名密码均为 `admin`)
+
+```bash
+docker exec -it superset superset fab create-admin \
+              --username admin \
+              --firstname 'admin' \
+              --lastname 'admin' \
+              --email admin@superset.apache.org \
+              --password 'admin'
+docker exec -it superset superset db upgrade
+docker exec -it superset superset init
+```
+
+#### 自定义配置
 
 参考配置 docker-compose.yml
 
@@ -59,8 +72,6 @@ services:
 ```python
 SECRET_KEY = 'superset'
 SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@postgres/database'
-WTF_CSRF_ENABLED = False
-TALISMAN_ENABLED = False
 ```
 
 #### 手动构建
