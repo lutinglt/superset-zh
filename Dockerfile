@@ -18,6 +18,10 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &&\
     apt-get -y clean && rm -rf /var/lib/apt/lists/* &&\
     # 安装数据库驱动
     pip install psycopg2 mysqlclient &&\
+    # 开箱即用配置, 配置安全密钥和关闭安全验证
+    sed -i "s/.*SECRET_KEY =.*/SECRET_KEY = \"superset\"/" /app/superset/config.py &&\
+    sed -i "s/WTF_CSRF_ENABLED = True/WTF_CSRF_ENABLED = False/" /app/superset/config.py &&\
+    sed -i "s/.*TALISMAN_ENABLED.*/TALISMAN_ENABLED = False/" /app/superset/config.py &&\
     # 默认语言
     sed -i "s/BABEL_DEFAULT_LOCALE = \"en\"/BABEL_DEFAULT_LOCALE = \"zh\"/" /app/superset/config.py &&\
     # 打开语言切换

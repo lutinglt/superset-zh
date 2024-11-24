@@ -14,11 +14,22 @@
 
 #### 下载镜像
 
-基于官方镜像生成, 修复了汉化问题, 仅保留中文和英文两种语言并且默认显示中文, 默认时区上海, 并添加了 Postgres 和 MySQL 数据库驱动, 其他配置与官方镜像相同.
+基于官方镜像生成, 修复了汉化问题, 仅保留中文和英文两种语言并且默认显示中文, 默认时区上海, 并添加了 PostgreSQL 和 MySQL 数据库驱动.
+为了做到开箱即用, 修改了以下默认配置:
+
+```python
+SECRET_KEY = 'superset'
+WTF_CSRF_ENABLED = False
+TALISMAN_ENABLED = False
+```
+
+一键启动体验汉化版 Superset
 
 ```bash
-docker pull lutinglt/superset-zh
+docker run -d --name superset -p 8080:8088 lutinglt/superset-zh
 ```
+
+> 登录仍需执行 `superset fab create-admin`, `superset db upgrade` 和 `superset init` 命令
 
 参考配置 docker-compose.yml
 
@@ -31,8 +42,6 @@ services:
     restart: always
     ports:
       - 8080:8088
-    environment:
-      - TZ=Asia/Shanghai
     volumes:
     # sqlite 存储持久化
       - ./superset:~/.superset
@@ -40,18 +49,18 @@ services:
       - ./superset_config.py:/app/pythonpath/superset_config.py
 ```
 
-参考配置 superset_config.py (Postgres数据库)
+参考配置 superset_config.py (PostgreSQL 数据库)
+
+> [!NOTE]
+>
+> SECRET_KEY 会用来签名 cookie 和加密 Superset 存储在数据库中的敏感数据
+> 推荐使用 `openssl rand -base64 42` 命令生成一个足够复杂的安全密钥,
 
 ```python
 SECRET_KEY = 'superset'
 SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@postgres/database'
 WTF_CSRF_ENABLED = False
 TALISMAN_ENABLED = False
-BABEL_DEFAULT_LOCALE = "zh"
-LANGUAGES = {
-    "zh": {"flag": "cn", "name": "简体中文"},
-    "en": {"flag": "us", "name": "English"},
-}
 ```
 
 #### 手动构建
@@ -103,7 +112,7 @@ docker build -t lutinglt/superset-zh .
 
 > [!TIP]
 >
-> Superset 2.1.0 之后安装的默认安全选项更为严格, 部署后登录不上, 或无法启动推荐添加以下配置
+> 官方镜像 Superset 2.1.0 之后安装的默认安全选项更为严格, 部署后登录不上, 或无法启动推荐添加以下配置(汉化版默认添加了这些配置):
 >
 > ```python
 > SECRET_KEY = 'superset' # 安全密钥, 启动必须进行配置
