@@ -42,8 +42,8 @@
       " to visualize your data.": ["将您的数据可视化"],
       "!= (Is not equal)": ["不等于（!=）"],
       "% calculation": ["% 计算"],
-      "% of parent": ["父类"],
-      "% of total": ["显示总计"],
+      "% of parent": ["% 父类"],
+      "% of total": ["% 总计"],
       "%(dialect)s cannot be used as a data source for security reasons.": [
         "出于安全原因，%(dialect)s SQLite数据库不能用作数据源。"
       ],
