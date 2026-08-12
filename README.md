@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+>
+> 由于上游 Superset 已恢复中文更新和质量, 本仓库将不再维护, 请使用官方镜像和仓库
+
 # Superset 汉化/中文版
 
 ![Version](https://img.shields.io/docker/v/lutinglt/superset-zh/latest?arch=amd64&sort=semver&color=066da5) ![Docker Pulls](https://img.shields.io/docker/pulls/lutinglt/superset-zh.svg?style=flat&label=pulls&logo=docker) ![Docker Size](https://img.shields.io/docker/image-size/lutinglt/superset-zh/latest?color=066da5&label=size) ![License](https://img.shields.io/github/license/lutinglt/superset-zh)
